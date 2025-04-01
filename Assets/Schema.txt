@@ -1,0 +1,3 @@
+Manager => Entity
+
+还不能有Main, 有点超标了

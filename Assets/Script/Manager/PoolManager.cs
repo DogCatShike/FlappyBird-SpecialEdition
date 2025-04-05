@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class PoolManager : MonoBehaviour
 {
-    public static PoolManager instance;
-    GameObject player;
+    Transform player;
 
     [SerializeField] GameObject[] props;
     Dictionary<int, GameObject> propPool;
@@ -29,9 +28,6 @@ public class PoolManager : MonoBehaviour
 
     void Awake()
     {
-        instance = this;
-        player = GameObject.FindGameObjectWithTag("Player");
-
         propPool = new Dictionary<int, GameObject>();
         pillarPool = new Dictionary<int, GameObject>();
         bgPool = new Dictionary<int, GameObject>();
@@ -48,6 +44,8 @@ public class PoolManager : MonoBehaviour
 
     void Start()
     {
+        player = ContextManager.player;
+
         SpawnPropPool();
         SpawnPillarPool();
         SpawnBgPool();
@@ -100,7 +98,7 @@ public class PoolManager : MonoBehaviour
         int index = Random.Range(0, props.Length);
         GameObject prop = propPool[index];
 
-        var pos = player.transform.position;
+        var pos = player.position;
         pos.x += 10;
         pos.y = Random.Range(-4, 4);
         prop.transform.position = pos;

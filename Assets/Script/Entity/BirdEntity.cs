@@ -23,6 +23,13 @@ public class BirdEntity : MonoBehaviour
     {
         Move();
         SetRot();
+
+        bool isFlying = InputManager.isBirdFlying;
+        if (isFlying)
+        {
+            FlyUp();
+            InputManager.instance.KeyReset();
+        }
     }
 
     void Move()
@@ -38,18 +45,18 @@ public class BirdEntity : MonoBehaviour
         velo.y = upForce;
         rb.velocity = velo;
     }
-    
+
     void SetRot()
     {
         float velo = rb.velocity.y;
 
         var bodyRot = Quaternion.Euler(0, 0, velo);
         transform.rotation = bodyRot;
-        
+
         velo = Mathf.Clamp(velo, -5, 5);
         velo += 5;
         velo = Mathf.Lerp(-10, 30, velo / 10);
-        
+
         var wingRot = Quaternion.Euler(0, 0, velo);
         wing.rotation = wingRot;
     }

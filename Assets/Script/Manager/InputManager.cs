@@ -6,6 +6,8 @@ public class InputManager : MonoBehaviour
 {
     public static InputManager instance;
 
+    public static bool isBirdFlying;
+
     void Awake()
     {
         instance = this;
@@ -25,7 +27,15 @@ public class InputManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0))
         {
-            GameManager.instance.OnPlayerFly();
+            isBirdFlying = true;
+        }
+    }
+
+    public void KeyReset()
+    {
+        if (isBirdFlying)
+        {
+            isBirdFlying = false;
         }
     }
 }

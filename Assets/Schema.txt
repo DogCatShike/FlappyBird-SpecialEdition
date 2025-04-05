@@ -1,3 +1,4 @@
 Manager => Entity
 
 还不能有Main, 有点超标了
+不儿, 我为什么要让Manager调Entity, 写傻了, 底层调上高层了

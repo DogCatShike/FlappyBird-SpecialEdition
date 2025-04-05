@@ -6,9 +6,9 @@ public class CameraEntity : MonoBehaviour
 {
     Transform player; // 跟随目标(玩家)
 
-    void Awake()
+    void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player").transform;
+        player = ContextManager.player;
     }
 
     void Update()

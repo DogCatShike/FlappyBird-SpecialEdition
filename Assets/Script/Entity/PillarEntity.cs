@@ -9,8 +9,12 @@ public class PillarEntity : MonoBehaviour
 
     void Awake()
     {
-        mainCamera = Camera.main.transform;
         cameraWidth = 9.6f;
+    }
+
+    void Start()
+    {
+        mainCamera = ContextManager.mainCamera;
     }
 
     void Update()

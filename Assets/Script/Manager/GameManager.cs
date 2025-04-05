@@ -8,24 +8,35 @@ public class GameManager : MonoBehaviour
 
     public static bool isGameScene;
 
-    BirdEntity player;
-
     void Awake()
     {
         instance = this;
         isGameScene = true;
-
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<BirdEntity>();
     }
 
-    public void OnPlayerFly()
+    void Update()
     {
-        if (player == null)
+        if (isGameScene)
         {
-            Debug.Log("Player is null");
-            return;
-        }
+            if (Time.timeScale == 1) { return; }
 
-        player.FlyUp();
+            OnStartGame();
+        }
+        else
+        {
+            if (Time.timeScale == 0) { return; }
+
+            OnPauseGame();
+        }
+    }
+
+    public void OnStartGame()
+    {
+        Time.timeScale = 1;
+    }
+
+    public void OnPauseGame()
+    {
+        Time.timeScale = 0;
     }
 }

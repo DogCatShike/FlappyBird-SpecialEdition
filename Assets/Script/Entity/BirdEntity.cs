@@ -16,7 +16,7 @@ public class BirdEntity : MonoBehaviour
         rb = gameObject.GetComponent<Rigidbody2D>();
 
         moveSpeed = 5f;
-        upForce = 5f;
+        upForce = 6f;
     }
 
     void Update()

@@ -13,14 +13,19 @@ public class PoolManager : MonoBehaviour
     [SerializeField] GameObject pillar;
     Dictionary<int, GameObject> pillarPool;
 
+    [SerializeField] GameObject[] bg;
+    Dictionary<int, GameObject> bgPool;
+
     [SerializeField] Transform pool;
 
     float spawnTimer;
     float spawnTime; // 生成间隔时间
 
-    float xPos; // 柱子x轴
+    float pillarXPos; // 柱子x轴
     Transform mainCamera;
     float cameraWidth;
+
+    float bgXPos; // 背景x轴
 
     void Awake()
     {
@@ -29,21 +34,27 @@ public class PoolManager : MonoBehaviour
 
         propPool = new Dictionary<int, GameObject>();
         pillarPool = new Dictionary<int, GameObject>();
+        bgPool = new Dictionary<int, GameObject>();
 
         spawnTimer = 0;
         spawnTime = 0;
 
-        xPos = 0;
+        pillarXPos = 0;
         mainCamera = Camera.main.transform;
         cameraWidth = 9.6f;
+
+        bgXPos = -20.48f;
     }
 
     void Start()
     {
         SpawnPropPool();
         SpawnPillarPool();
+        SpawnBgPool();
 
-        while (xPos < mainCamera.position.x + cameraWidth)
+        PickBg();
+
+        while (pillarXPos < mainCamera.position.x + cameraWidth)
         {
             PickPillar();
         }
@@ -57,16 +68,22 @@ public class PoolManager : MonoBehaviour
         if (spawnTimer >= spawnTime)
         {
             spawnTimer = 0;
-            spawnTime = Random.Range(3, 10);
+            spawnTime = Random.Range(3f, 10f);
             PickProp();
         }
 
-        if (xPos < mainCamera.position.x + cameraWidth)
+        if (pillarXPos < mainCamera.position.x + cameraWidth)
         {
             PickPillar();
         }
+
+        if (bgXPos < mainCamera.position.x)
+        {
+            PickBg();
+        }
     }
 
+    #region Prop
     void SpawnPropPool()
     {
         int count = props.Length;
@@ -90,7 +107,9 @@ public class PoolManager : MonoBehaviour
 
         prop.SetActive(true);
     }
+    #endregion
 
+    #region Pillar
     void SpawnPillarPool()
     {
         int count = 5;
@@ -104,11 +123,11 @@ public class PoolManager : MonoBehaviour
 
     void PickPillar()
     {
-        xPos += Random.Range(5f, 7f);
-        float yPos = Random.Range(-1.5f, 1.5f);
-        
+        pillarXPos += Random.Range(7f, 12f);
+        float pillarYPos = Random.Range(-1.5f, 1.5f);
+
         GameObject pillarGo = null;
-        for(int i = 0; i < pillarPool.Count; i++)
+        for (int i = 0; i < pillarPool.Count; i++)
         {
             GameObject go = pillarPool[i];
             if (!go.activeSelf)
@@ -123,7 +142,37 @@ public class PoolManager : MonoBehaviour
             Debug.Log("No available pillars in the pool.");
             return;
         }
-        pillarGo.transform.position = new Vector2(xPos, yPos);
+        pillarGo.transform.position = new Vector2(pillarXPos, pillarYPos);
         pillarGo.SetActive(true);
     }
+    #endregion
+
+    #region Bg
+    void SpawnBgPool()
+    {
+        int count = bg.Length;
+        for (int i = 0; i < count; i++)
+        {
+            GameObject go = Instantiate(bg[i], pool);
+            go.SetActive(false);
+            bgPool.Add(i, go);
+        }
+    }
+
+    void PickBg()
+    {
+        int len = bgPool.Count;
+        for (int i = 0; i < len; i++)
+        {
+            GameObject go = bgPool[i];
+            if (!go.activeSelf)
+            {
+                bgXPos += 20.48f;
+                go.transform.position = new Vector2(bgXPos, 0);
+                go.SetActive(true);
+                break;
+            }
+        }
+    }
+    #endregion
 }

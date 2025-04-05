@@ -13,6 +13,11 @@ public class PropEntity : MonoBehaviour
             UseProp();
             gameObject.SetActive(false);
         }
+
+        if (other.CompareTag("Pillar"))
+        {
+            gameObject.SetActive(false);
+        }
     }
 
     void UseProp()

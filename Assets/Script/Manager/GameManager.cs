@@ -1,42 +1,66 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
+    public static bool isPause;
 
-    public static bool isGameScene;
+    int score;
+
+    [Header("UI_Main")]
+    [SerializeField] GameObject panel_Over;
+    [SerializeField] Text txt_Score;
+
+    [Header("UI_Element")]
+    [SerializeField] Button btn_Restart;
+    [SerializeField] Button btn_Back;
+    [SerializeField] Text txt_OverScore;
 
     void Awake()
     {
         instance = this;
-        isGameScene = true;
+        isPause = false;
+
+        score = 0;
     }
 
-    void Update()
+    void Start()
     {
-        if (isGameScene)
+        btn_Restart.onClick.AddListener(() =>
         {
-            if (Time.timeScale == 1) { return; }
-
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
             OnStartGame();
-        }
-        else
-        {
-            if (Time.timeScale == 0) { return; }
+        });
 
-            OnPauseGame();
-        }
+        btn_Back.onClick.AddListener(() =>
+        {
+            SceneManager.LoadScene(0);
+            OnStartGame();
+        });
     }
 
     public void OnStartGame()
     {
+        isPause = false;
         Time.timeScale = 1;
     }
 
-    public void OnPauseGame()
+    public void OnGameOver()
     {
+        txt_OverScore.text = "得分: <color=red>" + score.ToString() + "</color>";
+        panel_Over.SetActive(true);
+
+        isPause = true;
         Time.timeScale = 0;
+    }
+
+    public void AddScore(int addScore)
+    {
+        score += addScore;
+        txt_Score.text = "分数: " + score.ToString();
     }
 }

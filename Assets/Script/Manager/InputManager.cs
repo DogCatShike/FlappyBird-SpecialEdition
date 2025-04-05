@@ -15,7 +15,7 @@ public class InputManager : MonoBehaviour
 
     void Update()
     {
-        if (!GameManager.isGameScene)
+        if (GameManager.isPause)
         {
             return;
         }

@@ -45,12 +45,17 @@ public class GameManager : MonoBehaviour
 
     public void OnStartGame()
     {
+        if (!isPause) { return; }
+
         isPause = false;
         Time.timeScale = 1;
     }
 
     public void OnGameOver()
     {
+        if (isPause) { return; }
+        Debug.Log("OnGameOver");
+
         txt_OverScore.text = "得分: <color=red>" + score.ToString() + "</color>";
         panel_Over.SetActive(true);
 

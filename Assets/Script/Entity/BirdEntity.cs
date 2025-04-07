@@ -27,10 +27,13 @@ public class BirdEntity : MonoBehaviour
 
     void Update()
     {
+        if (GameManager.isPause) { return; }
+
         float dt = Time.deltaTime;
 
         Move();
         SetRot();
+        UseProp();
 
         bool isFlying = InputManager.isBirdFlying;
         if (isFlying)
@@ -96,6 +99,49 @@ public class BirdEntity : MonoBehaviour
         upForce = 6f;
     }
 
+    void UseProp()
+    {
+        bool isUseCat = PropManager.isUseCat;
+        bool isUseGun = PropManager.isUseGun;
+        bool isUseSlow = PropManager.isUseSlow;
+        bool isUseWallhack = PropManager.isUseWallhack;
+
+        if (isUseCat)
+        {
+            UpForceDown();
+        }
+        else
+        {
+            if (upForce == 6) { return; }
+
+            UpForceReset();
+        }
+
+        if (isUseGun)
+        {
+            Debug.Log("Use Gun");
+        }
+        else
+        {
+            Debug.Log("No Use Gun");
+        }
+
+        if (isUseSlow)
+        {
+            SpeedDown();
+            PropManager.isUseSlow = false;
+        }
+
+        if (isUseWallhack)
+        {
+            Debug.Log("Use Wallhack");
+        }
+        else
+        {
+            Debug.Log("No Use Wallhack");
+        }
+    }
+
     void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Pillar"))
@@ -105,6 +151,14 @@ public class BirdEntity : MonoBehaviour
         else if (other.CompareTag("ScorePoint"))
         {
             GameManager.instance.AddScore(1);
+        }
+    }
+
+    void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.CompareTag("MainCamera"))
+        {
+            GameManager.instance.OnGameOver();
         }
     }
 }

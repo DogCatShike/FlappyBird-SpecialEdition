@@ -24,19 +24,19 @@ public class PropEntity : MonoBehaviour
     {
         if (type == PropType.Cat)
         {
-            Debug.Log("Cat");
+            PropManager.instance.UseCat();
         }
         else if (type == PropType.Gun)
         {
-            Debug.Log("Gun");
+            PropManager.instance.UseGun();
         }
         else if (type == PropType.Slow)
         {
-            Debug.Log("Slow");
+            PropManager.instance.UseSlow();
         }
         else if (type == PropType.Wallhack)
         {
-            Debug.Log("Wallhack");
+            PropManager.instance.UseWallhack();
         }
     }
 }

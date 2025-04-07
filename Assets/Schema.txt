@@ -1,4 +1,6 @@
-Manager => Entity
+Entity => Manager
 
 还不能有Main, 有点超标了
 不儿, 我为什么要让Manager调Entity, 写傻了, 底层调上高层了
+不是, 我之前就没反应过来Entity才是底层吗, 怎么想的
+工作量飙升

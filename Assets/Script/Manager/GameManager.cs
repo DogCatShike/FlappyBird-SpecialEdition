@@ -11,6 +11,8 @@ public class GameManager : MonoBehaviour
 
     int score;
 
+    BirdEntity player;
+
     [Header("UI_Main")]
     [SerializeField] GameObject panel_Over;
     [SerializeField] Text txt_Score;
@@ -30,6 +32,8 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        player = Context.player.GetComponent<BirdEntity>();
+
         btn_Restart.onClick.AddListener(() =>
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
@@ -43,9 +47,26 @@ public class GameManager : MonoBehaviour
         });
     }
 
+    void Update()
+    {
+        if (player.isDead)
+        {
+            OnGameOver();
+            return;
+        }
+
+        if (this.score != player.score)
+        {
+            this.score = player.score;
+            SetScore();
+        }
+    }
+
     public void OnStartGame()
     {
         if (!isPause) { return; }
+
+        player.Reset();
 
         isPause = false;
         Time.timeScale = 1;
@@ -54,7 +75,6 @@ public class GameManager : MonoBehaviour
     public void OnGameOver()
     {
         if (isPause) { return; }
-        Debug.Log("OnGameOver");
 
         txt_OverScore.text = "得分: <color=red>" + score.ToString() + "</color>";
         panel_Over.SetActive(true);
@@ -63,9 +83,8 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 0;
     }
 
-    public void AddScore(int addScore)
+    public void SetScore()
     {
-        score += addScore;
         txt_Score.text = "分数: " + score.ToString();
     }
 }

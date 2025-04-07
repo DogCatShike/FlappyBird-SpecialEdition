@@ -8,7 +8,7 @@ public class CameraEntity : MonoBehaviour
 
     void Start()
     {
-        player = ContextManager.player;
+        player = Context.player;
     }
 
     void Update()

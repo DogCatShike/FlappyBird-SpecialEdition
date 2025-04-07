@@ -8,35 +8,9 @@ public class PropEntity : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Player"))
-        {
-            UseProp();
-            gameObject.SetActive(false);
-        }
-
         if (other.CompareTag("Pillar"))
         {
             gameObject.SetActive(false);
-        }
-    }
-
-    void UseProp()
-    {
-        if (type == PropType.Cat)
-        {
-            PropManager.instance.UseCat();
-        }
-        else if (type == PropType.Gun)
-        {
-            PropManager.instance.UseGun();
-        }
-        else if (type == PropType.Slow)
-        {
-            PropManager.instance.UseSlow();
-        }
-        else if (type == PropType.Wallhack)
-        {
-            PropManager.instance.UseWallhack();
         }
     }
 }

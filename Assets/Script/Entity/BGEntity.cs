@@ -14,7 +14,7 @@ public class BGEntity : MonoBehaviour
 
     void Start()
     {
-        mainCamera = ContextManager.mainCamera;
+        mainCamera = Context.mainCamera;
     }
 
     void Update()

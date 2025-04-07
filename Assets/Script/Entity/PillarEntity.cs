@@ -14,7 +14,7 @@ public class PillarEntity : MonoBehaviour
 
     void Start()
     {
-        mainCamera = ContextManager.mainCamera;
+        mainCamera = Context.mainCamera;
     }
 
     void Update()

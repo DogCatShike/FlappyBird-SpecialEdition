@@ -14,6 +14,9 @@ public class BirdEntity : MonoBehaviour
     float SpeedUpTimer; // 加速计时器
     float SpeedUpTime;
 
+    public bool isDead;
+    public int score;
+
     void Awake()
     {
         rb = gameObject.GetComponent<Rigidbody2D>();
@@ -23,24 +26,17 @@ public class BirdEntity : MonoBehaviour
 
         SpeedUpTimer = 0;
         SpeedUpTime = 2;
+
+        isDead = false;
+        score = 0;
     }
 
     void Update()
     {
-        if (GameManager.isPause) { return; }
-
         float dt = Time.deltaTime;
 
         Move();
         SetRot();
-        UseProp();
-
-        bool isFlying = InputManager.isBirdFlying;
-        if (isFlying)
-        {
-            FlyUp();
-            InputManager.instance.KeyReset();
-        }
 
         SpeedUpTimer += dt;
         if (SpeedUpTimer >= SpeedUpTime)
@@ -48,6 +44,17 @@ public class BirdEntity : MonoBehaviour
             SpeedUp();
             SpeedUpTimer = 0;
         }
+    }
+
+    public void Reset()
+    {
+        moveSpeed = 5f;
+        upForce = 6f;
+
+        SpeedUpTimer = 0;
+
+        isDead = false;
+        score = 0;
     }
 
     void Move()
@@ -99,46 +106,22 @@ public class BirdEntity : MonoBehaviour
         upForce = 6f;
     }
 
-    void UseProp()
+    void UseProp(PropType type)
     {
-        bool isUseCat = PropManager.isUseCat;
-        bool isUseGun = PropManager.isUseGun;
-        bool isUseSlow = PropManager.isUseSlow;
-        bool isUseWallhack = PropManager.isUseWallhack;
-
-        if (isUseCat)
+        switch (type)
         {
-            UpForceDown();
-        }
-        else
-        {
-            if (upForce == 6) { return; }
-
-            UpForceReset();
-        }
-
-        if (isUseGun)
-        {
-            Debug.Log("Use Gun");
-        }
-        else
-        {
-            Debug.Log("No Use Gun");
-        }
-
-        if (isUseSlow)
-        {
-            SpeedDown();
-            PropManager.isUseSlow = false;
-        }
-
-        if (isUseWallhack)
-        {
-            Debug.Log("Use Wallhack");
-        }
-        else
-        {
-            Debug.Log("No Use Wallhack");
+            case PropType.Cat:
+                UpForceDown();
+                break;
+            case PropType.Gun:
+                Debug.Log("Gun");
+                break;
+            case PropType.Slow:
+                SpeedDown();
+                break;
+            case PropType.Wallhack:
+                Debug.Log("Wallhack");
+                break;
         }
     }
 
@@ -146,11 +129,17 @@ public class BirdEntity : MonoBehaviour
     {
         if (other.CompareTag("Pillar"))
         {
-            GameManager.instance.OnGameOver();
+            isDead = true;
         }
         else if (other.CompareTag("ScorePoint"))
         {
-            GameManager.instance.AddScore(1);
+            score += 1;
+        }
+        else if (other.CompareTag("Prop"))
+        {
+            var type = other.GetComponent<PropEntity>().type;
+            UseProp(type);
+            other.gameObject.SetActive(false);
         }
     }
 
@@ -158,7 +147,7 @@ public class BirdEntity : MonoBehaviour
     {
         if (other.CompareTag("MainCamera"))
         {
-            GameManager.instance.OnGameOver();
+            isDead = true;
         }
     }
 }

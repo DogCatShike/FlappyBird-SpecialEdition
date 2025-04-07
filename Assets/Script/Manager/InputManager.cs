@@ -4,13 +4,11 @@ using UnityEngine;
 
 public class InputManager : MonoBehaviour
 {
-    public static InputManager instance;
+    BirdEntity player;
 
-    public static bool isBirdFlying;
-
-    void Awake()
+    void Start()
     {
-        instance = this;
+        player = Context.player.GetComponent<BirdEntity>();
     }
 
     void Update()
@@ -27,15 +25,7 @@ public class InputManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0))
         {
-            isBirdFlying = true;
-        }
-    }
-
-    public void KeyReset()
-    {
-        if (isBirdFlying)
-        {
-            isBirdFlying = false;
+            player.FlyUp();
         }
     }
 }

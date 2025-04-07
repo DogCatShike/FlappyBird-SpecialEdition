@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ContextManager: MonoBehaviour
+public class Context: MonoBehaviour
 {
     public static Transform player;
     public static Transform mainCamera;

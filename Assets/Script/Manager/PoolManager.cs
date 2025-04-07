@@ -44,7 +44,7 @@ public class PoolManager : MonoBehaviour
 
     void Start()
     {
-        player = ContextManager.player;
+        player = Context.player;
 
         SpawnPropPool();
         SpawnPillarPool();

@@ -27,5 +27,13 @@ public class InputManager : MonoBehaviour
         {
             player.FlyUp();
         }
+
+        if (player.isUseGun)
+        {
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                player.Shoot();
+            }
+        }
     }
 }

@@ -141,6 +141,11 @@ public class PoolManager : MonoBehaviour
             return;
         }
         pillarGo.transform.position = new Vector2(pillarXPos, pillarYPos);
+
+        foreach (Transform child in pillarGo.transform)
+        {
+            child.gameObject.SetActive(true);
+        }
         pillarGo.SetActive(true);
     }
     #endregion

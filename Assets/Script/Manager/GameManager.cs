@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour
     [Header("UI_Main")]
     [SerializeField] GameObject panel_Over;
     [SerializeField] Text txt_Score;
+    [SerializeField] GameObject panel_Prop;
 
     [Header("UI_Element")]
     [SerializeField] Button btn_Restart;
@@ -67,6 +68,7 @@ public class GameManager : MonoBehaviour
         if (!isPause) { return; }
 
         player.Reset();
+        panel_Prop.SetActive(true);
 
         isPause = false;
         Time.timeScale = 1;
@@ -75,6 +77,8 @@ public class GameManager : MonoBehaviour
     public void OnGameOver()
     {
         if (isPause) { return; }
+
+        panel_Prop.SetActive(false);
 
         txt_OverScore.text = "得分: <color=red>" + score.ToString() + "</color>";
         panel_Over.SetActive(true);

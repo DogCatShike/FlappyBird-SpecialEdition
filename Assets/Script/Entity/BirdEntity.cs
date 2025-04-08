@@ -9,13 +9,19 @@ public class BirdEntity : MonoBehaviour
     [SerializeField] Transform wing;
 
     float moveSpeed; // 向右移动速度
-    float upForce; // 上升力
+    public float upForce; // 上升力
 
     float SpeedUpTimer; // 加速计时器
     float SpeedUpTime;
 
     public bool isDead;
     public int score;
+
+    public bool isUseCat;
+    public bool isUseGun;
+    public bool isUseWallhack;
+
+    public int gunTimes;
 
     void Awake()
     {
@@ -29,6 +35,12 @@ public class BirdEntity : MonoBehaviour
 
         isDead = false;
         score = 0;
+
+        isUseCat = false;
+        isUseGun = false;
+        isUseWallhack = false;
+
+        gunTimes = 0;
     }
 
     void Update()
@@ -101,8 +113,9 @@ public class BirdEntity : MonoBehaviour
         upForce = 4f;
     }
 
-    void UpForceReset()
+    public void UpForceReset()
     {
+        isUseCat = false;
         upForce = 6f;
     }
 
@@ -111,18 +124,36 @@ public class BirdEntity : MonoBehaviour
         switch (type)
         {
             case PropType.Cat:
+            {
+                isUseCat = true;
                 UpForceDown();
                 break;
+            }
             case PropType.Gun:
-                Debug.Log("Gun");
+            {
+                isUseGun = true;
                 break;
+            }
             case PropType.Slow:
-                SpeedDown();
+            {
+                if (moveSpeed > 5)
+                {
+                    SpeedDown();
+                }
                 break;
+            }
             case PropType.Wallhack:
+            {
+                isUseWallhack = true;
                 Debug.Log("Wallhack");
                 break;
+            }
         }
+    }
+
+    public void Shoot()
+    {
+        gunTimes += 1;
     }
 
     void OnTriggerEnter2D(Collider2D other)

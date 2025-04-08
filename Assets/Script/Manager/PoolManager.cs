@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PoolManager : MonoBehaviour
 {
+    public static PoolManager instance;
+
     Transform player;
 
     [SerializeField] GameObject[] props;
@@ -14,6 +16,9 @@ public class PoolManager : MonoBehaviour
 
     [SerializeField] GameObject[] bg;
     Dictionary<int, GameObject> bgPool;
+
+    [SerializeField] GameObject bullet;
+    Dictionary<int, GameObject> bulletPool;
 
     [SerializeField] Transform pool;
 
@@ -28,9 +33,12 @@ public class PoolManager : MonoBehaviour
 
     void Awake()
     {
+        instance = this;
+
         propPool = new Dictionary<int, GameObject>();
         pillarPool = new Dictionary<int, GameObject>();
         bgPool = new Dictionary<int, GameObject>();
+        bulletPool = new Dictionary<int, GameObject>();
 
         spawnTimer = 0;
         spawnTime = 0;
@@ -49,6 +57,7 @@ public class PoolManager : MonoBehaviour
         SpawnPropPool();
         SpawnPillarPool();
         SpawnBgPool();
+        SpawnBulletPool();
 
         PickBg();
 
@@ -172,6 +181,35 @@ public class PoolManager : MonoBehaviour
             {
                 bgXPos += 20.48f;
                 go.transform.position = new Vector2(bgXPos, 0);
+                go.SetActive(true);
+                break;
+            }
+        }
+    }
+    #endregion
+
+    #region Bullet
+    void SpawnBulletPool()
+    {
+        int count = 5;
+        for (int i = 0; i < count; i++)
+        {
+            GameObject go = Instantiate(bullet, pool);
+            go.SetActive(false);
+
+            bulletPool.Add(i, go);
+        }
+    }
+
+    public void PickBullet()
+    {
+        int len = bulletPool.Count;
+        for (int i = 0; i < len; i++)
+        {
+            GameObject go = bulletPool[i];
+            if (!go.activeSelf)
+            {
+                go.transform.position = player.position;
                 go.SetActive(true);
                 break;
             }

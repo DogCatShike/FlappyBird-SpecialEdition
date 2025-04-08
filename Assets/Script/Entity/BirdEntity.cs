@@ -50,6 +50,8 @@ public class BirdEntity : MonoBehaviour
         Move();
         SetRot();
 
+        if (moveSpeed >= 20) { return; }
+
         SpeedUpTimer += dt;
         if (SpeedUpTimer >= SpeedUpTime)
         {

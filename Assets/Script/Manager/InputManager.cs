@@ -33,6 +33,7 @@ public class InputManager : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.E))
             {
                 player.Shoot();
+                PoolManager.instance.PickBullet();
             }
         }
     }

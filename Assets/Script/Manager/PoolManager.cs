@@ -75,7 +75,7 @@ public class PoolManager : MonoBehaviour
         if (spawnTimer >= spawnTime)
         {
             spawnTimer = 0;
-            spawnTime = Random.Range(3f, 10f);
+            spawnTime = Random.Range(3f, 7f);
             PickProp();
         }
 

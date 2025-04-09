@@ -10,14 +10,17 @@ public class GameManager : MonoBehaviour
     int score;
 
     [Header("UI")]
-    public GameObject panel_Over;
-    public Text txt_Score;
+    [SerializeField] GameObject panel_Over;
+    Text txt_OverScore;
+    [SerializeField] Text txt_Score;
 
     void Awake()
     {
         instance = this;
 
         score = 0;
+
+        txt_OverScore = panel_Over.transform.Find("Txt_OverScore").GetComponent<Text>();
     }
 
     public void AddScore(int amount)
@@ -30,6 +33,7 @@ public class GameManager : MonoBehaviour
     {
         Time.timeScale = 0;
         panel_Over.SetActive(true);
+        txt_OverScore.text = "得分: <color=red>" + score.ToString() + "</color>";
     }
 
     public void ResetGame()

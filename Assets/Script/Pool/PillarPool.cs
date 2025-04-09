@@ -8,7 +8,7 @@ public class PillarPool : MonoBehaviour
     Dictionary<int, GameObject> pillarPool;
 
     float xPos;
-    
+
     Transform mainCamera;
     float cameraWidth;
 
@@ -24,6 +24,11 @@ public class PillarPool : MonoBehaviour
     void Start()
     {
         SpawnPillarPool();
+
+        while (xPos < mainCamera.position.x + cameraWidth)
+        {
+            PickPillar();
+        }
     }
 
     void Update()

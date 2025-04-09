@@ -10,10 +10,14 @@ public class Bird : MonoBehaviour
     public float moveSpeed;
     public float upForce;
 
+    public bool canShoot;
+
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
+
+        canShoot = false;
     }
 
     void Update()
@@ -51,6 +55,27 @@ public class Bird : MonoBehaviour
         }
     }
 
+    void UseProp(PropType type)
+    {
+        switch (type)
+        {
+            case PropType.Cat:
+                upForce = 4;
+                break;
+            case PropType.Gun:
+                canShoot = true;
+                break;
+            case PropType.Slow:
+                moveSpeed -= 0.5f;
+                break;
+            case PropType.Wallhack:
+                Debug.Log("Wallhack");
+                break;
+            default:
+                break;
+        }
+    }
+
     void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Pillar"))
@@ -61,6 +86,13 @@ public class Bird : MonoBehaviour
         if (other.CompareTag("ScorePoint"))
         {
             GameManager.instance.AddScore(1);
+        }
+
+        if (other.CompareTag("Prop"))
+        {
+            PropType type = other.GetComponent<Prop>().type;
+            UseProp(type);
+            other.gameObject.SetActive(false);
         }
     }
 

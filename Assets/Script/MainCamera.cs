@@ -2,14 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CameraEntity : MonoBehaviour
+public class MainCamera : MonoBehaviour
 {
-    Transform player; // 跟随目标(玩家)
-
-    void Start()
-    {
-        player = Context.player;
-    }
+    [SerializeField] Transform player; // 跟随目标(玩家)
 
     void Update()
     {

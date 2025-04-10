@@ -9,6 +9,8 @@ public class Pillar : MonoBehaviour
 
     public void ShowSuperPoint()
     {
+        if (isShowSuperPoint) { return; }
+
         int len = superScorePoints.Length;
         var point = superScorePoints[Random.Range(0, len)];
 
@@ -19,7 +21,7 @@ public class Pillar : MonoBehaviour
         {
             var superPoint = superScorePoints[i];
 
-            if (superPoint == point) { return; }
+            if (superPoint == point) { continue; }
 
             superPoint.transform.tag = "Pillar";
         }
@@ -29,6 +31,8 @@ public class Pillar : MonoBehaviour
 
     public void HideSuperPoint()
     {
+        if (!isShowSuperPoint) { return; }
+
         int len = superScorePoints.Length;
 
         for (int i = 0; i < len; i++)

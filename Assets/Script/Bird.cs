@@ -100,7 +100,7 @@ public class Bird : MonoBehaviour
         {
             case PropType.Cat:
             {
-            isCat = true;
+                isCat = true;
                 catTimer = 0;
                 upForce = 4;
                 break;
@@ -163,6 +163,8 @@ public class Bird : MonoBehaviour
         if (!isWallhack) { return; }
 
         wallhackTimer += dt;
+        PillarPool.instance.ShowSuperPoint();
+        
         if (wallhackTimer >= wallhackMaxTime)
         {
             isWallhack = false;

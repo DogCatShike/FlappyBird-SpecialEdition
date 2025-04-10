@@ -12,6 +12,11 @@ public class Prop : MonoBehaviour
         {
             gameObject.SetActive(false);
         }
+
+        if (other.CompareTag("SuperScorePoint"))
+        {
+            gameObject.SetActive(false);
+        }
     }
 
     void OnTriggerExit2D(Collider2D other)

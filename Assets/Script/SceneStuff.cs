@@ -30,6 +30,12 @@ public class SceneStuff : MonoBehaviour
         // 柱子
         if (transform.position.x < mainCamera.position.x - cameraWidth)
         {
+            var pillar = gameObject.GetComponent<Pillar>();
+            if (pillar.isShowSuperPoint)
+            {
+                pillar.HideSuperPoint();
+            }
+
             gameObject.SetActive(false);
         }
     }

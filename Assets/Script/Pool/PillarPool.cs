@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PillarPool : MonoBehaviour
 {
+    public static PillarPool instance;
+
     [SerializeField] GameObject pillarPrefab;
     Dictionary<int, GameObject> pillarPool;
 
@@ -14,6 +16,8 @@ public class PillarPool : MonoBehaviour
 
     void Awake()
     {
+        instance = this;
+
         pillarPool = new Dictionary<int, GameObject>();
         xPos = 0;
 
@@ -74,5 +78,24 @@ public class PillarPool : MonoBehaviour
             child.gameObject.SetActive(true);
         }
         pillar.SetActive(true);
+    }
+
+    public void ShowSuperPoint()
+    {
+        int len = pillarPool.Count;
+
+        for (int i = 0; i < len; i++)
+        {
+            var pillar = pillarPool[i];
+            if (pillar.activeSelf)
+            {
+                var pillarScript = pillar.GetComponent<Pillar>();
+                if (!pillarScript.isShowSuperPoint)
+                {
+                    pillarScript.ShowSuperPoint();
+                    break;
+                }
+            }
+        }
     }
 }
